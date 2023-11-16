@@ -1,5 +1,14 @@
 import turtle
-import ball
+from oop_ball import Ball
+import random
+def initilizing(xpos, ypos, vx, vy, ball_color, canvas_width, canvas_height, ball_radius, num_balls):
+    # create random number of balls, num_balls, located at random positions within the canvas; each ball has a random velocity value in the x and y direction and is painted with a random color
+    for i in range(num_balls):
+        xpos.append(random.randint(-1*canvas_width + ball_radius, canvas_width - ball_radius))
+        ypos.append(random.randint(-1*canvas_height + ball_radius, canvas_height - ball_radius))
+        vx.append(random.randint(1, 0.01*canvas_width))
+        vy.append(random.randint(1, 0.01*canvas_height))
+        ball_color.append((random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
 
 num_balls = int(input("Number of balls to simulate: "))
 turtle.speed(0)
@@ -15,12 +24,16 @@ ypos = []
 vx = []
 vy = []
 ball_color = []
-ball.initilizing(xpos, ypos, vx, vy, ball_color, canvas_width, canvas_height, ball_radius, num_balls)
+
+for x in range(num_balls):
+    initilizing(xpos, ypos, vx, vy, ball_color, canvas_width, canvas_height, ball_radius, num_balls)
+all_balls = Ball(xpos, ypos, turtle.speed(1), vx, vy, ball_color, ball_radius)
+
 while (True):
     turtle.clear()
     for i in range(num_balls):
-        ball.draw_circle(ball_color[i], ball_radius, xpos[i], ypos[i])
-        ball.move_circle(i, xpos, ypos, vx, vy, canvas_width, canvas_height, ball_radius)
+        Ball.draw_circle(all_balls, i)
+        Ball.move_circle(all_balls, i, canvas_width, canvas_height)
     turtle.update()
 
 # hold the window; close it by clicking the window close 'x' mark
